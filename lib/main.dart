@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:assignment_flutter_app/app/auth_screens.dart/congratulation.dart';
 import 'package:assignment_flutter_app/app/auth_screens.dart/login_screen.dart';
 import 'package:assignment_flutter_app/app/auth_screens.dart/onboarding_screen.dart';
 import 'package:assignment_flutter_app/app/bottom_nav.dart';
@@ -95,7 +96,7 @@ class MyApp extends StatelessWidget {
           //         currentIndex: 0,
           //       ),
 
-          child: LoginScreen(),
+          child: OnBoardingScreen(),
         ),
       ),
     );

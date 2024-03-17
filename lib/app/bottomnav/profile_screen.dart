@@ -23,19 +23,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         automaticallyImplyLeading: false,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        title: Row(
-          children: [
-            Text(
-              ' Profile',
-              style: GoogleFonts.rubik(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                  fontSize: 18,
-                ),
-              ),
+        title: Text(
+          ' Profile',
+          style: GoogleFonts.rubik(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              fontSize: 18,
             ),
-          ],
+          ),
         ),
       ),
       body: Container(
@@ -45,17 +41,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: MyColors.dullWhite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Center(
-              child: Icon(
-                Icons.person,
-                color: MyColors.green,
-                size: 120,
+            const SizedBox(height: 10),
+
+            Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                border: Border.all(color: MyColors.green),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.person,
+                  color: MyColors.green,
+                  size: 120,
+                ),
               ),
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             //-----------------------------------------name-------------------------------------------//
 
             textRowBuilder('Full Name', SharedPreferencesHelper.getName()),
@@ -72,46 +79,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             //-----------------------------------------button------------------------------------------//
 
-            SizedBox(height: size.height * 0.3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80),
-              child: SizedBox(
-                height: 40,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyColors.green,
-                    disabledBackgroundColor: MyColors.green,
-                    minimumSize: const Size(double.infinity, 45),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+            SizedBox(height: size.height * 0.08),
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: MyColors.green,
+                  disabledBackgroundColor: MyColors.green,
+                  minimumSize: const Size(120, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: () {
-                    if (SharedPreferencesHelper.getIsLoggedIn()) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const SuccessDialogBox();
-                          });
-                    } else {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                          (route) => false);
-                    }
-                  },
-                  child: Text(
-                    SharedPreferencesHelper.getIsLoggedIn()
-                        ? 'Logout'
-                        : 'Login',
-                    style: GoogleFonts.nunito(
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
+                ),
+                onPressed: () {
+                  if (SharedPreferencesHelper.getIsLoggedIn()) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const SuccessDialogBox();
+                        });
+                  } else {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false);
+                  }
+                },
+                child: Text(
+                  SharedPreferencesHelper.getIsLoggedIn() ? 'Logout' : 'Login',
+                  style: GoogleFonts.nunito(
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),

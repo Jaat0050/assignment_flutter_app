@@ -158,6 +158,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     board[currentIndex].image,
                   ),
                   fit: BoxFit.contain,
+                  height: MediaQuery.of(context).size.height * 0.3,
                 ),
                 const Spacer(),
 
