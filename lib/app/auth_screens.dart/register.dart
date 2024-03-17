@@ -5,6 +5,7 @@ import 'package:assignment_flutter_app/services/api_value.dart';
 import 'package:assignment_flutter_app/utils/constant.dart';
 import 'package:assignment_flutter_app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,12 +27,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       TextEditingController();
 
   bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _emailController.text = SharedPreferencesHelper.getUserEmail();
-  }
 
   @override
   void dispose() {
@@ -103,23 +98,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 //---------------------------------------name--------------------------------//
-                textfieldBuilder(_nameController, 'Name', Icons.person_2),
+                textfieldBuilder(
+                    _nameController, 'Name', Icons.person_2, false),
 
                 //---------------------------------------email--------------------------------//
-                textfieldBuilder(
-                    _emailController, 'Email', Icons.mail_outline_rounded),
+                textfieldBuilder(_emailController, 'Email',
+                    Icons.mail_outline_rounded, false),
 
                 //---------------------------------------mobile--------------------------------//
                 textfieldBuilder(
-                    _mobileController, 'Mobile no.', Icons.phone_rounded),
+                    _mobileController, 'Mobile no.', Icons.phone_rounded, true),
 
                 //---------------------------------------password--------------------------------//
-                textfieldBuilder(
-                    _passwordController, 'Password', Icons.lock_open_outlined),
+                textfieldBuilder(_passwordController, 'Password',
+                    Icons.lock_open_outlined, false),
 
-                //---------------------------------------email--------------------------------//
+                //---------------------------------------confirm password--------------------------------//
                 textfieldBuilder(_confirmPasswordController, 'Confirm password',
-                    Icons.lock_clock_outlined),
+                    Icons.lock_clock_outlined, false),
 
                 //---------------------------------------button--------------------------------//
 
@@ -178,7 +174,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ['user_token'],
                                   );
                                   SharedPreferencesHelper.setId(
-                                    id: registerResponse['data']['id'],
+                                    id: registerResponse['data']['id']
+                                        .toString(),
                                   );
                                   SharedPreferencesHelper.setName(
                                     name: registerResponse['data']['name'],
@@ -290,7 +287,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget textfieldBuilder(controller, String hintText, IconData icon) {
+  Widget textfieldBuilder(
+      controller, String hintText, IconData icon, bool isphone) {
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
@@ -304,6 +302,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Center(
           child: TextField(
             controller: controller,
+            keyboardType: isphone ? TextInputType.number : TextInputType.text,
+            inputFormatters: isphone
+                ? [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10),
+                  ]
+                : [],
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: TextStyle(color: Colors.grey[400], fontSize: 15),
