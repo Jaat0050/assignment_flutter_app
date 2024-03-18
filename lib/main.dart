@@ -90,13 +90,13 @@ class MyApp extends StatelessWidget {
             ),
             duration: const Duration(seconds: 1),
           ),
-          // child: SharedPreferencesHelper.getisFirstTime() == true
-          //     ? const OnBoardingScreen()
-          //     : BottomNav(
-          //         currentIndex: 0,
-          //       ),
+          child: SharedPreferencesHelper.getisFirstTime() == true
+              ? const OnBoardingScreen()
+              : BottomNav(
+                  currentIndex: 0,
+                ),
 
-          child: OnBoardingScreen(),
+          // child: OnBoardingScreen(),
         ),
       ),
     );
