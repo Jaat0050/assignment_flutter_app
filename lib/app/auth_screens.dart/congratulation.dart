@@ -41,7 +41,7 @@ class _CongratScreenState extends State<CongratScreen> {
           children: [
             const Spacer(flex: 2),
             Image(
-              image: AssetImage(
+              image: const AssetImage(
                 'assets/auth/congrats.gif',
               ),
               fit: BoxFit.contain,

@@ -201,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               : Text(
                                   'Login',
                                   style: GoogleFonts.nunito(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 20),
                         width: size.width,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -219,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               "Don't have an account?",
                               style: GoogleFonts.rubik(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,

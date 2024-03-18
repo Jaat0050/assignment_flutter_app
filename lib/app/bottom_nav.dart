@@ -20,9 +20,9 @@ class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
 
   List<Widget> get pages => [
-        HomeScreen(),
-        CartScreen(),
-        ProfileScreen(),
+        const HomeScreen(),
+        const CartScreen(),
+        const ProfileScreen(),
       ];
 
   void _onItemTapped(int index) async {

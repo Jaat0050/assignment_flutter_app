@@ -1,7 +1,9 @@
-import 'package:assignment_flutter_app/app/bottomnav/product/add_product.dart';
-import 'package:assignment_flutter_app/app/bottomnav/product/delete_product.dart';
-import 'package:assignment_flutter_app/app/bottomnav/product/edit_product.dart';
-import 'package:assignment_flutter_app/app/bottomnav/product/product_view.dart';
+import 'package:assignment_flutter_app/app/bottom_nav.dart';
+import 'package:assignment_flutter_app/app/bottomnav/cart.dart';
+import 'package:assignment_flutter_app/app/product/add_product.dart';
+import 'package:assignment_flutter_app/app/product/delete_product.dart';
+import 'package:assignment_flutter_app/app/product/edit_product.dart';
+import 'package:assignment_flutter_app/app/product/product_view.dart';
 import 'package:assignment_flutter_app/main.dart';
 import 'package:assignment_flutter_app/services/api_value.dart';
 import 'package:assignment_flutter_app/utils/constant.dart';
@@ -18,20 +20,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<dynamic> productList = [];
+  final TextEditingController _searchController = TextEditingController();
+
+  List<dynamic> allProductList = [];
   bool isSearch = false;
   bool isLoading = false;
   List favproduct = box.get('favProduct') ?? [];
+  List<dynamic> filteredItems = [];
 
   Future<void> initializePrefs() async {
     setState(() {
       isLoading = true;
     });
-    print(SharedPreferencesHelper.getIsLoggedIn());
     if (SharedPreferencesHelper.getIsLoggedIn()) {
-      var loansData = await apiValue.getProduct();
-      print(loansData);
-      if (loansData != null) {
+      var productData = await apiValue.getProduct();
+      if (productData != null) {
         Map<String, int> indicesMap = {};
         for (int i = 0; i < favproduct.length; i++) {
           indicesMap[favproduct[i]] = i;
@@ -39,11 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
         if (mounted) {
           setState(() {
             if (favproduct.isEmpty) {
-              productList = loansData;
+              allProductList = productData;
               isLoading = false;
+              filteredItems = List.from(allProductList);
             } else {
-              productList = loansData;
-              productList.sort((a, b) {
+              allProductList = productData;
+              allProductList.sort((a, b) {
                 int indexA = indicesMap[a['id']] ?? -1;
                 int indexB = indicesMap[b['id']] ?? -1;
                 if (indexA != -1 && indexB == -1) {
@@ -56,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   return 0;
                 }
               });
+              filteredItems = List.from(productData);
+
               isLoading = false;
             }
           });
@@ -76,6 +82,23 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     initializePrefs();
+  }
+
+  void _filterItems(String query) {
+    setState(
+      () {
+        if (query.isEmpty) {
+          // isSearch = false;
+          filteredItems = List.from(allProductList);
+        } else {
+          isSearch = true;
+          filteredItems = allProductList
+              .where((item) =>
+                  item['name'].toLowerCase().contains(query.toLowerCase()))
+              .toList();
+        }
+      },
+    );
   }
 
   @override
@@ -102,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "     Vegetables",
                       style: GoogleFonts.rubik(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                           fontSize: 22,
@@ -110,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Image(
-                      image: AssetImage('assets/images/top.png'),
+                      image: const AssetImage('assets/images/top.png'),
                       fit: BoxFit.contain,
                       width: size.height * 0.2,
                     ),
@@ -118,34 +141,76 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 //--------------------------------------search--------------------------//
                 if (SharedPreferencesHelper.getIsLoggedIn())
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 20, top: 10, bottom: 10),
-                    child: Container(
-                      height: 38,
-                      width: size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: Center(
-                        child: TextField(
-                          cursorColor: MyColors.green,
-                          decoration: InputDecoration(
-                            focusColor: MyColors.green,
-                            hintText: 'Search',
-                            hintStyle: TextStyle(
-                                color: Colors.grey[400], fontSize: 15),
-                            contentPadding: const EdgeInsets.all(10),
-                            isDense: true,
-                            border: InputBorder.none,
-                            fillColor: Colors.transparent,
-                            filled: true,
-                            prefixIcon: Icon(Icons.search_rounded),
+                  Container(
+                    height: 45,
+                    width: size.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: const Color.fromRGBO(0, 0, 0, 0.1), width: 1),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 4,
+                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                          spreadRadius: 0,
+                          offset: Offset(2, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.search,
+                            color: Color.fromRGBO(0, 0, 0, 0.6),
                           ),
                         ),
-                      ),
+                        Expanded(
+                          child: TextField(
+                            onChanged: (value) {
+                              _filterItems(value);
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.only(bottom: 5),
+                              hintText: 'Search type of loans',
+                              border: InputBorder.none,
+                              hintStyle: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color.fromRGBO(0, 0, 0, 0.4),
+                                ),
+                              ),
+                            ),
+                            controller: _searchController,
+                            onTap: () {
+                              setState(() {
+                                isSearch = true;
+                              });
+                            },
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _searchController.clear();
+                            setState(() {
+                              isSearch = false;
+                              filteredItems = List.from(allProductList);
+                            });
+                            FocusScope.of(context).unfocus();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.grey,
+                              size: 15,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 //------------------------------------list of products-----------------------------//
@@ -155,30 +220,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           child:
                               CircularProgressIndicator(color: MyColors.green),
                         )
-                      : productList.isEmpty
+                      : filteredItems.isEmpty
                           ? Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image(
-                                    image:
-                                        AssetImage('assets/onboarding/ob2.gif'),
-                                    height: size.height * 0.2,
-                                  ),
-                                  Text(
-                                    'Login to see products',
-                                    style: GoogleFonts.rubik(
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                        fontSize: 18,
+                                  if (!isSearch)
+                                    Image(
+                                      image: const AssetImage(
+                                          'assets/onboarding/ob2.gif'),
+                                      height: size.height * 0.2,
+                                    ),
+                                  if (!isSearch)
+                                    Text(
+                                      SharedPreferencesHelper.getIsLoggedIn()
+                                          ? 'No products found'
+                                          : 'Login to see products',
+                                      style: GoogleFonts.rubik(
+                                        textStyle: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                     ),
-                                  ),
                                 ],
                               ),
                             )
-                          : productsBuilder(),
+                          : productsBuilder(filteredItems),
                 ),
               ],
             ),
@@ -193,16 +262,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     left: size.width * 0.1, top: size.height * 0.1),
                 child: floatingButtonBuilder(),
               ))
-          : SizedBox(),
+          : const SizedBox(),
     );
   }
 
-  Widget productsBuilder() {
+  Widget productsBuilder(List productList) {
     Size size = MediaQuery.of(context).size;
     return ListView.builder(
       itemCount: productList.length,
       shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
@@ -246,8 +315,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Image(
                     image: index.isEven
-                        ? AssetImage('assets/images/img2.png')
-                        : AssetImage('assets/images/img1.png'),
+                        ? const AssetImage('assets/images/img2.png')
+                        : const AssetImage('assets/images/img1.png'),
                     fit: BoxFit.fill,
                     width: size.width * 0.4,
                     height: 120,
@@ -261,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(),
+                            const SizedBox(),
                             PopupMenuButton<String>(
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry<String>>[
@@ -269,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   value: 'edit',
                                   child: Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.edit_outlined,
                                         color: Colors.grey,
                                         size: 18,
@@ -293,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   value: 'delete',
                                   child: Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.delete_outline,
                                         color: Colors.red,
                                         size: 18,
@@ -355,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 }
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.more_vert_rounded,
                                 color: Colors.black,
                                 size: 18,
@@ -382,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            "₹ ${productList[index]["price"]}/piece",
+                            "₹ ${productList[index]["price"]} / piece",
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             style: GoogleFonts.nunito(
@@ -443,21 +512,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 30,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                border: Border.all(
+                            GestureDetector(
+                              onTap: () async {
+                                String productId =
+                                    productList[index]['id'].toString();
+                                cartProduct.add(productId);
+                                await box.put('cart', cartProduct);
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        BottomNav(currentIndex: 1),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyColors.green,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                   color: MyColors.green,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
-                                color: MyColors.green,
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_shopping_cart_rounded,
-                                  size: 18,
-                                  color: Colors.white,
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.add_shopping_cart_rounded,
+                                    size: 18,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -482,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
-            return Dialog(
+            return const Dialog(
               backgroundColor: Colors.transparent,
               child: AddProductDialog(),
             );
@@ -500,7 +584,7 @@ class _HomeScreenState extends State<HomeScreen> {
           shape: BoxShape.circle,
           color: MyColors.green,
         ),
-        child: Center(
+        child: const Center(
           child: Icon(
             Icons.add,
             color: Colors.white,

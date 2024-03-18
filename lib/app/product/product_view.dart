@@ -1,5 +1,3 @@
-import 'package:assignment_flutter_app/app/bottomnav/product/delete_product.dart';
-import 'package:assignment_flutter_app/app/bottomnav/product/edit_product.dart';
 import 'package:assignment_flutter_app/main.dart';
 import 'package:assignment_flutter_app/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -43,13 +41,13 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: MyColors.dullWhite,
         elevation: 0,
         automaticallyImplyLeading: true,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
           'Product Details',
           style: GoogleFonts.rubik(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.black,
               fontSize: 18,
@@ -57,64 +55,62 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image(
-                image: AssetImage(widget.image),
-                height: size.height * 0.4,
-                width: size.width,
-                fit: BoxFit.fill,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                  widget.name,
-                  style: GoogleFonts.rubik(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-              ),
-              Text(
-                'Price: ₹${widget.price} / piece',
-                style: GoogleFonts.roboto(
-                  textStyle: TextStyle(
+      body: Container(
+        height: size.height,
+        width: size.width,
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image(
+              image: AssetImage(widget.image),
+              height: size.height * 0.4,
+              width: size.width,
+              fit: BoxFit.fill,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                widget.name,
+                style: GoogleFonts.rubik(
+                  textStyle: const TextStyle(
                     fontWeight: FontWeight.w500,
-                    color: Colors.black87,
-                    fontSize: 18,
+                    color: Colors.black,
+                    fontSize: 22,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  'Discount: ~ ₹${widget.discount} / piece',
-                  style: GoogleFonts.elsie(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blueAccent,
-                      fontSize: 14,
-                    ),
+            ),
+            Text(
+              'Price: ₹${widget.price} / piece',
+              style: GoogleFonts.roboto(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                'Discount: ~ ₹${widget.discount} / piece',
+                style: GoogleFonts.elsie(
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.blueAccent,
+                    fontSize: 14,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomSheet: Container(
         height: size.height * 0.1,
         width: size.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
@@ -122,7 +118,7 @@ class _ProductScreenState extends State<ProductScreen> {
           color: Colors.white,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -178,7 +174,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.shopping_cart_checkout_rounded,
                       size: 20,
                       color: Colors.white,
@@ -186,7 +182,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Text(
                       'Add to Cart',
                       style: GoogleFonts.rubik(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
                           fontSize: 16,

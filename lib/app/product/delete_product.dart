@@ -96,7 +96,7 @@ class DeleteProductDialogState extends State<DeleteProductDialog> {
                             child: Text(
                               "Go back",
                               style: GoogleFonts.dmSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 10,
                                     color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.w400),
@@ -148,7 +148,7 @@ class DeleteProductDialogState extends State<DeleteProductDialog> {
                                 : Text(
                                     "Delete",
                                     style: GoogleFonts.dmSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 10,
                                           color: Color.fromRGBO(0, 0, 0, 1),
                                           fontWeight: FontWeight.w400),

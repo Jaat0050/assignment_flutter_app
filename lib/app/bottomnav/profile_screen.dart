@@ -1,8 +1,8 @@
 import 'package:assignment_flutter_app/app/auth_screens.dart/login_screen.dart';
+import 'package:assignment_flutter_app/main.dart';
 import 'package:assignment_flutter_app/utils/constant.dart';
 import 'package:assignment_flutter_app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text(
           ' Profile',
           style: GoogleFonts.rubik(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontWeight: FontWeight.w500,
               color: Colors.black,
               fontSize: 18,
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Container(
               margin: const EdgeInsets.only(bottom: 20),
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Text(
                   SharedPreferencesHelper.getIsLoggedIn() ? 'Logout' : 'Login',
                   style: GoogleFonts.nunito(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 14,
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -266,7 +266,7 @@ class SuccessDialogBoxState extends State<SuccessDialogBox> {
                             child: Text(
                               "Go back",
                               style: GoogleFonts.dmSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 10,
                                     color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.w400),
@@ -282,6 +282,9 @@ class SuccessDialogBoxState extends State<SuccessDialogBox> {
                             isLoggedIn: false);
                         SharedPreferencesHelper.setisFirstTime(
                             isFirstTime: false);
+
+                        box.delete('cart');
+                        box.delete('favProduct');
 
                         Navigator.pushAndRemoveUntil(
                             context,
@@ -302,7 +305,7 @@ class SuccessDialogBoxState extends State<SuccessDialogBox> {
                             child: Text(
                               "Logout",
                               style: GoogleFonts.dmSans(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 10,
                                     color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.w400),

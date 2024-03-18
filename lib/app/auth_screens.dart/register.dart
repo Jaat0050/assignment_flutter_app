@@ -1,6 +1,5 @@
 import 'package:assignment_flutter_app/app/auth_screens.dart/congratulation.dart';
 import 'package:assignment_flutter_app/app/auth_screens.dart/login_screen.dart';
-import 'package:assignment_flutter_app/app/bottom_nav.dart';
 import 'package:assignment_flutter_app/services/api_value.dart';
 import 'package:assignment_flutter_app/utils/constant.dart';
 import 'package:assignment_flutter_app/utils/shared_pref_helper.dart';
@@ -49,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Container(
           width: size.height,
           height: size.height,
-          padding: EdgeInsets.only(left: 20, right: 20, top: 30),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           decoration: BoxDecoration(
             color: MyColors.dullBlue,
           ),
@@ -59,14 +58,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 10, top: 30, bottom: 10),
+                  padding: const EdgeInsets.only(left: 10, top: 30, bottom: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Register",
                         style: GoogleFonts.rubik(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 25,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
@@ -83,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -228,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         : Text(
                             'Register',
                             style: GoogleFonts.nunito(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
@@ -238,7 +237,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   width: size.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,7 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Text(
                         "Have an account?",
                         style: GoogleFonts.rubik(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 12,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,

@@ -7,14 +7,26 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddProductDialog extends StatefulWidget {
-  AddProductDialog({super.key});
+class EditProductDialog extends StatefulWidget {
+  String id;
+  String name;
+  String price;
+  String moq;
+  String discount;
+  EditProductDialog({
+    super.key,
+    required this.id,
+    required this.name,
+    required this.moq,
+    required this.price,
+    required this.discount,
+  });
 
   @override
-  State<AddProductDialog> createState() => _AddProductDialogState();
+  State<EditProductDialog> createState() => _EditProductDialogState();
 }
 
-class _AddProductDialogState extends State<AddProductDialog> {
+class _EditProductDialogState extends State<EditProductDialog> {
   final TextEditingController _productNameController = TextEditingController();
   final TextEditingController _moqController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
@@ -24,6 +36,10 @@ class _AddProductDialogState extends State<AddProductDialog> {
   @override
   void initState() {
     super.initState();
+    _productNameController.text = widget.name;
+    _moqController.text = widget.moq;
+    _priceController.text = widget.price;
+    _discountController.text = widget.discount;
   }
 
   @override
@@ -50,8 +66,8 @@ class _AddProductDialogState extends State<AddProductDialog> {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
                     ),
@@ -111,18 +127,18 @@ class _AddProductDialogState extends State<AddProductDialog> {
                               isLoading = true;
                             });
 
-                            var addProductResponse = await apiValue.addProduct(
-                              _productNameController.text,
-                              _moqController.text,
-                              _priceController.text,
-                              _discountController.text,
-                            );
+                            var editProductResponse =
+                                await apiValue.editProduct(
+                                    _productNameController.text,
+                                    _moqController.text,
+                                    _priceController.text,
+                                    _discountController.text,
+                                    widget.id);
 
-                            if (addProductResponse != null) {
+                            if (editProductResponse != null) {
                               setState(() {
                                 isLoading = false;
                               });
-                              print(addProductResponse);
                               Navigator.pop(context);
                             } else {
                               setState(() {
@@ -143,9 +159,9 @@ class _AddProductDialogState extends State<AddProductDialog> {
                           ),
                         )
                       : Text(
-                          'Add',
+                          'Edit',
                           style: GoogleFonts.nunito(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               color: Colors.white,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,

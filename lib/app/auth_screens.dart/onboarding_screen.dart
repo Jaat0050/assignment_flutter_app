@@ -1,5 +1,4 @@
 import 'package:assignment_flutter_app/app/auth_screens.dart/login_screen.dart';
-import 'package:assignment_flutter_app/app/auth_screens.dart/register.dart';
 import 'package:assignment_flutter_app/utils/constant.dart';
 import 'package:assignment_flutter_app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +102,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
       body: Container(
         height: height,
         width: width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: PageView.builder(
@@ -248,7 +247,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                         : Text(
                             currentIndex == 2 ? 'Continue' : 'Next',
                             style: GoogleFonts.nunito(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
