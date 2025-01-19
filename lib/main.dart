@@ -35,8 +35,8 @@ Future<void> _initializePrefs() async {
     DeviceOrientation.portraitDown,
   ]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: MyColors.green,
-    statusBarIconBrightness: Brightness.light,
+    statusBarColor: MyColors.dullWhite,
+    statusBarIconBrightness: Brightness.dark,
   ));
   await SharedPreferencesHelper.init();
   isFirstTime = SharedPreferencesHelper.getisFirstTime();
@@ -51,8 +51,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
-      designSize: Size(MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height),
+      designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {

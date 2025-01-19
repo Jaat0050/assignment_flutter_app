@@ -146,17 +146,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                           color: const Color.fromRGBO(0, 0, 0, 0.1), width: 1),
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          spreadRadius: 0,
-                          offset: Offset(2, 3),
-                        ),
-                      ],
+                      // boxShadow: const [
+                      //   BoxShadow(
+                      //     blurRadius: 4,
+                      //     color: Color.fromRGBO(0, 0, 0, 0.25),
+                      //     spreadRadius: 0,
+                      //     offset: Offset(2, 3),
+                      //   ),
+                      // ],
                     ),
                     child: Row(
                       children: [
@@ -176,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               contentPadding: const EdgeInsets.only(bottom: 5),
                               hintText: 'Search type of loans',
                               border: InputBorder.none,
+                              fillColor: Colors.white,
                               hintStyle: GoogleFonts.roboto(
                                 textStyle: TextStyle(
                                   fontSize: 12.sp,
@@ -192,24 +193,24 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            _searchController.clear();
-                            setState(() {
-                              isSearch = false;
-                              filteredItems = List.from(allProductList);
-                            });
-                            FocusScope.of(context).unfocus();
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.grey,
-                              size: 15,
-                            ),
-                          ),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     _searchController.clear();
+                        //     setState(() {
+                        //       isSearch = false;
+                        //       filteredItems = List.from(allProductList);
+                        //     });
+                        //     FocusScope.of(context).unfocus();
+                        //   },
+                        //   child: const Padding(
+                        //     padding: EdgeInsets.all(8.0),
+                        //     child: Icon(
+                        //       Icons.close,
+                        //       color: Colors.grey,
+                        //       size: 15,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -298,16 +299,16 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: MyColors.dullWhite,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color.fromRGBO(0, 0, 0, 0.33),
-                  width: 1.0,
-                ),
+                // border: Border.all(
+                //   color: const Color.fromRGBO(0, 0, 0, 0.33),
+                //   width: 1.0,
+                // ),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -324,114 +325,114 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SizedBox(),
-                            PopupMenuButton<String>(
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<String>>[
-                                PopupMenuItem<String>(
-                                  value: 'edit',
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.edit_outlined,
-                                        color: Colors.grey,
-                                        size: 18,
-                                      ),
-                                      Text(
-                                        '   Edit',
-                                        style: GoogleFonts.nunito(
-                                          textStyle: TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color.fromRGBO(
-                                                0, 0, 0, 1),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<String>(
-                                  value: 'delete',
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.delete_outline,
-                                        color: Colors.red,
-                                        size: 18,
-                                      ),
-                                      Text(
-                                        '   Delete',
-                                        style: GoogleFonts.nunito(
-                                          textStyle: TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color.fromRGBO(
-                                                0, 0, 0, 1),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                              onSelected: (String value) {
-                                if (value == 'edit') {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        backgroundColor: Colors.transparent,
-                                        child: EditProductDialog(
-                                          id: productList[index]["id"],
-                                          discount: productList[index]
-                                              ["discounted_price"],
-                                          moq: productList[index]["moq"],
-                                          name: productList[index]["name"],
-                                          price: productList[index]["price"],
-                                        ),
-                                      );
-                                    },
-                                  ).then(
-                                    (value) {
-                                      setState(() {
-                                        initializePrefs();
-                                      });
-                                    },
-                                  );
-                                } else if (value == 'delete') {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return DeleteProductDialog(
-                                          id: productList[index]["id"]);
-                                    },
-                                  ).then(
-                                    (value) {
-                                      setState(() {
-                                        initializePrefs();
-                                      });
-                                    },
-                                  );
-                                }
-                              },
-                              child: const Icon(
-                                Icons.more_vert_rounded,
-                                color: Colors.black,
-                                size: 18,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     const SizedBox(),
+                        //     PopupMenuButton<String>(
+                        //       itemBuilder: (BuildContext context) =>
+                        //           <PopupMenuEntry<String>>[
+                        //         PopupMenuItem<String>(
+                        //           value: 'edit',
+                        //           child: Row(
+                        //             children: [
+                        //               const Icon(
+                        //                 Icons.edit_outlined,
+                        //                 color: Colors.grey,
+                        //                 size: 18,
+                        //               ),
+                        //               Text(
+                        //                 '   Edit',
+                        //                 style: GoogleFonts.nunito(
+                        //                   textStyle: TextStyle(
+                        //                     overflow: TextOverflow.ellipsis,
+                        //                     fontSize: 13.sp,
+                        //                     fontWeight: FontWeight.w600,
+                        //                     color: const Color.fromRGBO(
+                        //                         0, 0, 0, 1),
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //         PopupMenuItem<String>(
+                        //           value: 'delete',
+                        //           child: Row(
+                        //             children: [
+                        //               const Icon(
+                        //                 Icons.delete_outline,
+                        //                 color: Colors.red,
+                        //                 size: 18,
+                        //               ),
+                        //               Text(
+                        //                 '   Delete',
+                        //                 style: GoogleFonts.nunito(
+                        //                   textStyle: TextStyle(
+                        //                     overflow: TextOverflow.ellipsis,
+                        //                     fontSize: 13.sp,
+                        //                     fontWeight: FontWeight.w600,
+                        //                     color: const Color.fromRGBO(
+                        //                         0, 0, 0, 1),
+                        //                   ),
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ],
+                        //       onSelected: (String value) {
+                        //         if (value == 'edit') {
+                        //           showDialog(
+                        //             context: context,
+                        //             barrierDismissible: false,
+                        //             builder: (BuildContext context) {
+                        //               return Dialog(
+                        //                 backgroundColor: Colors.transparent,
+                        //                 child: EditProductDialog(
+                        //                   id: productList[index]["id"],
+                        //                   discount: productList[index]
+                        //                       ["discounted_price"],
+                        //                   moq: productList[index]["moq"],
+                        //                   name: productList[index]["name"],
+                        //                   price: productList[index]["price"],
+                        //                 ),
+                        //               );
+                        //             },
+                        //           ).then(
+                        //             (value) {
+                        //               setState(() {
+                        //                 initializePrefs();
+                        //               });
+                        //             },
+                        //           );
+                        //         } else if (value == 'delete') {
+                        //           showDialog(
+                        //             context: context,
+                        //             builder: (BuildContext context) {
+                        //               return DeleteProductDialog(
+                        //                   id: productList[index]["id"]);
+                        //             },
+                        //           ).then(
+                        //             (value) {
+                        //               setState(() {
+                        //                 initializePrefs();
+                        //               });
+                        //             },
+                        //           );
+                        //         }
+                        //       },
+                        //       child: const Icon(
+                        //         Icons.more_vert_rounded,
+                        //         color: Colors.black,
+                        //         size: 18,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Text(
@@ -441,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: GoogleFonts.nunito(
                               textStyle: TextStyle(
                                 overflow: TextOverflow.ellipsis,
-                                fontSize: 13.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w700,
                                 color: const Color.fromRGBO(0, 0, 0, 1),
                               ),
@@ -450,18 +451,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            "₹ ${productList[index]["price"]} / piece",
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            style: GoogleFonts.nunito(
-                              textStyle: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color.fromRGBO(0, 0, 0, 1),
+                          child: Row(
+                            children: [
+                              Text(
+                                "₹ ${productList[index]["price"]}",
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                style: GoogleFonts.nunito(
+                                  textStyle: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromRGBO(0, 0, 0, 1),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Text(
+                                " / piece",
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                style: GoogleFonts.nunito(
+                                  textStyle: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Row(
